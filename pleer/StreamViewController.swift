@@ -15,6 +15,9 @@ class StreamViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet var playerTableView: UITableView!
     @IBOutlet var exitButton: UIButton!
     @IBOutlet var subtitlesButton: UIButton!
+    @IBOutlet var controllView: UIView!
+    @IBOutlet var togglePauseButton: UIButton!
+    
     
     var items: [MenuItem] = []
     var mediaPlayer = VLCMediaPlayer()
@@ -28,6 +31,7 @@ class StreamViewController: UIViewController, UITableViewDelegate, UITableViewDa
         playerTableView.isHidden = !playerTableView.isHidden
         exitButton.isHidden = !exitButton.isHidden
         subtitlesButton.isHidden = !subtitlesButton.isHidden
+        controllView.isHidden = !subtitlesButton.isHidden
     }
     
     override var shouldAutorotate: Bool {
@@ -51,7 +55,7 @@ class StreamViewController: UIViewController, UITableViewDelegate, UITableViewDa
         subtitlesButton.layer.borderWidth = 2
         
         playerTableView.backgroundColor = .clear
-        
+        controllView.isHidden = true
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
@@ -63,7 +67,10 @@ class StreamViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBAction func toggleSubtitles(_ sender: UIButton) {
         subtitlesButton.isSelected = !sender.isSelected
-        guard let subtitle = mediaPlayer.videoSubTitlesIndexes.first as? Int  else { return }
+        guard let subtitle = mediaPlayer.videoSubTitlesIndexes.first as? Int  else {
+            print("No subtitle tracks found")
+            return }
+         print("subtitle track \(subtitle)")
         mediaPlayer.currentVideoSubTitleIndex = Int32(subtitlesButton.isSelected ? subtitle : -1)
     }
     
@@ -148,6 +155,34 @@ class StreamViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    
+    // MARK: - Control Actions
+    
+    @IBAction func stop(_ sender: Any) {
+        mediaPlayer.stop()
+        togglePauseButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
+    }
+    
+    @IBAction func rewind(_ sender: Any) {
+        mediaPlayer.rewind()
+    }
+    
+    @IBAction func togglePause(_ sender: Any) {
+        switch mediaPlayer.state {
+        case .paused,.stopped:
+            mediaPlayer.play()
+            togglePauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
+        default:
+            mediaPlayer.pause()
+            togglePauseButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
+            return
+        }
+    }
+    
+    @IBAction func forward(_ sender: Any) {
+        mediaPlayer.fastForward()
     }
 }
 
