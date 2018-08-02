@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <h1>Press button</h1>
+        <div id = "channels">
+        </div>
+        <button onclick="openPlayer()">Play</button>
+        <script>
+            var chanels = [
+                           {"title": "43 Канал Туапсе", "url": "http://sochi-strk.ru:1936/strk/43Kanal.stream/playlist.m3u8"},
+                           {"title": "#  Говорит Москва", "url": "http://video.govoritmoskva.ru:8080/rufm/index.m3u8"},
+                           {"title": "78 HD", "url": "http://channel78.gcdn.co/channel78/index.m3u8"},
+                           {"title": "Сочинская ТелеРадиоКомпания", "url": "http://sochi-strk.ru:1936/strk/strk.stream/playlist.m3u8"}
+                           ];
+                           
+                           function callNativeApp(title, url) {
+                               var messageToPost = {'Title': title, 'URL': url ,'List' : JSON.stringify(chanels)};
+                                        window.webkit.messageHandlers.callbackHandler.postMessage(url);
+                                    window.webkit.messageHandlers.callbackHandlerArray.postMessage(JSON.stringify(chanels));
+                               
+                           }
+        
+        function openPlayer() {
+            if(navigator.onLine){
+                callNativeApp(chanels[0].title, chanels[0].url)
+            } else {
+                setTimeout(openPlayer(), 10000)
+            }
+            callNativeApp(chanels[0].title, chanels[0].url)
+        }
+        
+            </script>
+    </body>
+</html>

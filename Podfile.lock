@@ -1,0 +1,24 @@
+PODS:
+  - MobileVLCKit (3.1.0)
+  - ReachabilitySwift (4.1.0)
+  - SwiftyJSON (4.1.0)
+
+DEPENDENCIES:
+  - MobileVLCKit
+  - ReachabilitySwift
+  - SwiftyJSON
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - MobileVLCKit
+    - ReachabilitySwift
+    - SwiftyJSON
+
+SPEC CHECKSUMS:
+  MobileVLCKit: 4e55792b03c99429c9f4716aa44e685f65b3d178
+  ReachabilitySwift: 6849231cd4e06559f3b9ef4a97a0a0f96d41e09f
+  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
+
+PODFILE CHECKSUM: 7444d799dc83f29b442bb5cc521b7bea7b754f4a
+
+COCOAPODS: 1.5.3
